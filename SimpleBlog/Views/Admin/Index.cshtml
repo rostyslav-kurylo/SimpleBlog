@@ -1,0 +1,52 @@
+﻿@model IEnumerable<SimpleBlog.Models.Post>
+
+@{
+    ViewBag.Title = "Admin page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Admin page</h3>
+<h4>
+    <a href="@Url.Action("Index", "Admin")">Posts List</a> |
+    <a href="@Url.Action("Edit", "Account")">Edit account</a>
+</h4>
+<br />
+<div class="row">
+    <p>
+        @Html.ActionLink("[Create new post]", "Create", "Posts")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Body)
+            </th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "Posts", new { id = item.ID })">Edit</a><br />
+                    <a href="@Url.Action("Details", "Posts", new { id = item.ID })">Details</a><br />
+                    <a href="@Url.Action("Delete", "Posts", new { id = item.ID })">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

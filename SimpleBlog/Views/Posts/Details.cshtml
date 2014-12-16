@@ -1,0 +1,76 @@
+﻿@model SimpleBlog.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8 blog-main">
+        <div class="blog-post">
+            <h2 class="blog-post-title">@Html.DisplayFor(model => model.Title)</h2>
+            <p class="blog-post-meta">
+                <span class="date">@Html.DisplayFor(model => model.CreatedDate)</span> | 
+                <span class="commentscount">@Model.Comments.Count Comments</span> | 
+                @foreach (var tag in Model.Tags)
+                {
+                    <span class="tag"><a href="@Url.Action("Tags", "Posts", new { id = tag.Name })">@tag.Name</a></span>
+                }
+            </p>
+            @Html.Raw(Model.Body)
+        </div>
+
+        @if (Model.Comments.Count != 0)
+        {
+            <hr />
+            <h4>Comments:</h4>
+        }
+
+        <div class="blog-post-comments">
+            @foreach (var comment in Model.Comments.OrderBy(x => x.CreatedDate))
+            {
+                <blockquote>
+                    <h4 class="comment-caption text-info">@comment.Name</h4>
+                    <p>@Html.Encode(comment.Body)</p>
+                    <small>@comment.CreatedDate</small>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Delete comment", "DeleteComment", new { id = comment.ID }, new { @class = "text-danger" })
+                    }
+                </blockquote>
+            }
+        </div>
+        <hr />
+        <div class="comment-editor">
+            @using (Html.BeginForm("Comment", "Posts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                
+                <div class="form-horizontal">
+                    <h4>Leave Comment</h4>
+                    <input type="hidden" value="@Model.ID" name="PostID" />
+                    <div class="form-group">
+                        @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Comment", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <textarea class="form-control text-box multi-line" id="Message" name="Message" rows="6"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Submit" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @Html.Partial("~/Views/Shared/_PartialViewAbout.cshtml")
+</div>

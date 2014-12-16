@@ -1,0 +1,23 @@
+﻿@model IEnumerable<SimpleBlog.Models.Post>
+
+@{
+    ViewBag.Title = "Tags";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8 blog-main">
+        @foreach (var item in Model)
+        {
+            <div class="blog-post">
+                <h2 class="blog-post-title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                <p class="blog-post-meta">
+                    <span class="date">@Html.DisplayFor(modelItem => item.CreatedDate)</span>
+                </p>
+                @Html.Raw(item.Body)
+                @Html.ActionLink("[Read more]", "Details", new { id = item.ID })
+            </div>
+        }
+    </div>
+    @Html.Partial("~/Views/Shared/_PartialViewAbout.cshtml")
+</div>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<SimpleBlog.Models.Post>
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-8 blog-main">
+        @foreach (var item in Model)
+        {
+            <div class="blog-post">
+                <h2 class="blog-post-title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                <p class="blog-post-meta">
+                    <span class="date">@Html.DisplayFor(modelItem => item.CreatedDate)</span>
+                </p>
+                @Html.Raw(item.Body)
+                @Html.ActionLink("[Read more]", "Details", new { id = item.ID })
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.ActionLink("[Edit]", "Edit", new { id = item.ID }, new { @class = "text-danger" })<span></span>
+                    @Html.ActionLink("[Delete]", "Delete", new { id = item.ID }, new { @class = "text-danger" })
+                }
+            </div>
+        }
+        <nav>
+            <ul class="pager">
+                @if (ViewBag.IsPrevLinkVisible)
+                {
+                    <li><a id="previous-link" href="@Url.Action("Index", "Posts", new { page = ViewBag.Page - 1 })">&lt;&lt; Prev</a></li>
+                }
+
+                @if (ViewBag.IsNextLinkVisible)
+                {
+                    <li><a id="next-link" href="@Html.Action("Index", "Posts", new { page = ViewBag.Page + 1 })">Next &gt;&gt;</a></li>
+                }
+            </ul>
+        </nav>
+    </div>
+    @Html.Partial("~/Views/Shared/_PartialViewAbout.cshtml")
+</div>

@@ -23,16 +23,3 @@ Technology
 * Entity FrameWork 6.1.1
 * Bootstrap 3.2.0
 * jQuery 2.1.1
-
-Git Access
-------------------------------------------------------
-[https://github.com/krosvi/SimpleBlog](https://github.com/krosvi/SimpleBlog)
-
-License
-------------------------------------------------------
-SimpleBlog
-Copyright (C) 2014 [Rostislav Kurylo](http://github.com/krosvi)
-
-Contacts
------------------------------------------------------
-* [My Email](mailto:rostislav.k@hotmail.com)
